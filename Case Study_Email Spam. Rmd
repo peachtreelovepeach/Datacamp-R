@@ -1,1 +1,69 @@
+# Load packages
+library(ggplot2)
+library(dplyr)
+library(openintro)
 
+# Compute summary statistics
+email %>%
+  group_by(spam) %>%
+  summarize(median(num_char), IQR(num_char))
+
+# Create plot
+email %>%
+  mutate(log_num_char = log(num_char)) %>%
+  ggplot(aes(x = spam, y = log_num_char)) +
+  geom_boxplot()
+  
+  # Compute center and spread for exclaim_mess by spam
+email %>%
+group_by(spam) %>%
+summarise(median(exclaim_mess), IQR(exclaim_mess))
+
+
+# Create plot for spam and exclaim_mess
+email %>%
+  mutate(log_exclaim_mess = log(exclaim_mess)) %>%
+  ggplot(aes(x=log_exclaim_mess)) +
+  geom_histogram()+
+  facet_wrap(~ spam)
+
+
+# Create plot of proportion of spam by image
+email %>%
+  mutate(has_image = image>0) %>%
+  ggplot(aes(x = has_image, fill = spam)) +
+  geom_bar(position = "fill")
+  
+  
+  # Test if images count as attachments
+sum(email$images>email$attach)
+
+
+#Check-in 1
+#Zero inflation in the exclaim_mess variable
+#you can analyze the two part separatly
+#or turn it into a categorical variable of is-zero, not-zero
+#Could make a barchart
+#need to decide if you are more interested in counts or proportions
+
+# Question 1
+email %>%
+  filter(dollar>0) %>%
+  group_by(spam) %>%
+  
+  
+  
+  # Reorder levels
+email$number <- factor(email$number, c("none","small",'big'))
+
+# Construct plot of number
+ggplot(email, aes(x=number))+
+  geom_bar()+
+  facet_wrap( ~ spam)
+  summarize(median(dollar))
+
+# Question 2
+email %>%
+  filter(dollar>10) %>%
+  ggplot(aes(x = spam)) +
+  geom_bar()
